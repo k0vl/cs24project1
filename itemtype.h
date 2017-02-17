@@ -5,10 +5,19 @@
 
 using namespace std;
 
-struct File
+class File
 {
-	string filename;
-	int count;
-	File* next;
+	public:
+		File( string str, int num, File* ptr );
+		void setFilename( string str );
+		void setCount( int num );
+		void setNext( File* ptr );
+		string getFilename() const;
+		int getCount() const;
+		File* getNext() const;
+	private:
+		string filename;
+		int count;
+		File* next;
 };
 #endif

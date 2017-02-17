@@ -6,41 +6,48 @@
 using namespace std;
 void insert_file(Word* word_ptr, string filename)
 {
-	if( !(word_ptr->file_ptr) )
+	if( !(word_ptr->getFilePtr()) )
 	{
-		word_ptr->file_ptr = new File{filename,1,NULL};
+		word_ptr->setFilePtr(new File(filename,1,NULL));
 		return;
 	}
-	File* iterator = word_ptr->file_ptr;
-	while (iterator->next) {
-		iterator = iterator->next;
-		if(iterator->filename == filename)
-			iterator->count++;
+	File* iterator = word_ptr->getFilePtr();
+	bool found = false;
+	while (iterator->getNext() && !found) {
+		iterator = iterator->getNext();
+		if(iterator->getFilename() == filename)
+		{
+			int i = iterator->getCount();
+			iterator->setCount(++i);
+			found = true;
+		}
 	}
-	iterator->next = new File{filename,1,NULL};
+	if ( !found )
+		iterator->setNext (new File(filename,1,NULL));
 }
 
 Word* insert_word(Word*& head, string search)
 {
 	if (!head) {
-		head = new Word{ search,NULL,NULL };
+		head = new Word(search,NULL,NULL );
 		return head;
 	}
 	Word* ptr = head;
-	while (ptr->next) {
-		ptr = ptr->next;
-		if (ptr->word == search)
+	while (ptr->getNext()) {
+		ptr = ptr->getNext();
+		if (ptr->getWord() == search)
 			return ptr;
 	}
-	return ptr->next = new Word{search,NULL,NULL};
+	ptr->setNext(new Word(search,NULL,NULL));
+	return ptr->getNext();
 }
 
 void print_all(Word* head)
 {
 	while(head){
-		cout << "\"" << head->word << "\"" << endl;
-		for(File* i = head->file_ptr; i; i = i->next)
-			cout << i->filename << ":" << i->count << endl;
-		head = head->next;
+		cout << "\"" << head->getWord() << "\"" << endl;
+		for(File* i = head->getFilePtr(); i; i = i->getNext())
+			cout << i->getFilename() << ":" << i->getCount() << endl;
+		head = head->getNext();
 	}
 }

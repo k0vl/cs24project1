@@ -7,7 +7,7 @@
 #include <fstream>
 #include "word.h"
 #include "list.h"
-//#include "document.h"
+#include "wordsearch.h"
 
 using namespace std;
 
@@ -17,12 +17,14 @@ int getdir (string dir, vector<string> &files)
 {
   DIR *dp;
   struct dirent *dirp;
-  if((dp  = opendir(dir.c_str())) == NULL) {
+  if((dp  = opendir(dir.c_str())) == NULL) 
+  {
     cout << "Error(" << errno << ") opening " << dir << endl;
     return errno;
   }
 
-  while ((dirp = readdir(dp)) != NULL) {
+  while ((dirp = readdir(dp)) != NULL) 
+  {
     files.push_back(string(dirp->d_name));
   }
   closedir(dp);
@@ -31,7 +33,7 @@ int getdir (string dir, vector<string> &files)
 
 int main(int argc, char* argv[])
 {
-  string dir; //
+  string dir;
   vector<string> files = vector<string>();
   Word* head = NULL;
 
@@ -66,7 +68,7 @@ int main(int argc, char* argv[])
     fin.close();
   }
 
-  cout << "This is the next part of the program " << endl;
+	cout << "This is the next part of the program " << endl;
   
 	string keyword;
 	bool found = false;
@@ -75,24 +77,24 @@ int main(int argc, char* argv[])
 	{
 		cout << "Please enter a word: ";
 		cin >> keyword;
-		if (keyword != "exit")
+		if (keyword != "exit") //skip process if keyword == exit
 		{
 			Word* iterW = head;
 			while (iterW != NULL && !found) //search word
 			{
-				if (iterW->word == keyword) //word found
+				if (iterW->getWord() == keyword) //word found
 				{
 					cout << "Keyword \"" + keyword + "\" found in: ";
-					File* iterF = iterW->file_ptr;
+					File* iterF = iterW->getFilePtr();
 					while (iterF != NULL) //print files
 					{
-						cout << "[ " << iterF->filename << ", " << iterF->count << " ] ";
-						iterF = iterF->next;
+						cout << "[" << iterF->getFilename() << ", " << iterF->getCount() <<"] ";
+						iterF = iterF->getNext();
 					}
 					cout << endl;
 					found = true;
 				}
-				iterW = iterW->next;
+				iterW = iterW->getNext();
 			}
 			found = false;
 		}

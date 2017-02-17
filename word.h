@@ -3,9 +3,18 @@
 #include "itemtype.h"
 using namespace std;
 
-struct Word{
-	string word;
-	File* file_ptr;
-	Word* next;
+class Word{
+	public:
+		Word(string str, File* ptrF, Word* ptrW);
+		void setWord( string str );
+		void setFilePtr( File* ptr );
+		void setNext( Word* ptr );
+		string getWord() const;
+		File* getFilePtr() const;
+		Word* getNext() const;
+	private:
+		string word;
+		File* file_ptr;
+		Word* next;
 };
 #endif
