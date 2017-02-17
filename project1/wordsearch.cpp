@@ -48,58 +48,42 @@ int main(int argc, char* argv[])
       cout << "Error opening " << dir << "; Exiting ..." << endl;
       return(-2);
     }
-  
-  // THIS PART OF THE CODE SETS UP THE INVERTED INDEX 
 
-  string slash("/");
   for (unsigned int i = 0; i < files.size(); i++) {
     if(files[i][0]=='.') continue; //skip hidden files
-    cout << "OPEN " << files[i] << endl;
-    ifstream fin((string(argv[1])+slash+files[i]).c_str()); //open using absolute path
+	cout << "reading " << files[i] << "...";
+    ifstream fin((string(argv[1])+ "/" +files[i]).c_str()); //open using absolute path
     // ...read the file..
     string word;
-    while(true){
-      fin>>word;
-      if(fin.eof()) {cout << "EOF " << files[i] << endl; break;}
-      insert_file(insert_word(head, word), files[i]);
-      // Now the string "word" holds the keyword, and the string "files[i]" holds the document name.
-      // Use these two strings to search/insert in your linked lists
-    }
+    while(fin >> word)
+	  insert_file(insert_word(head, word), files[i]);
     fin.close();
+	cout << "done" << endl;
   }
-
-	cout << "This is the next part of the program " << endl;
   
 	string keyword;
-	bool found = false;
-	cout << "Welcome to The Dictionary (Case Sensitive)\n";
-	do
+	cout << "\nWelcome to The Dictionary\n";
+	while(true)
 	{
-		cout << "Please enter a word: ";
+		cout << "\nPlease enter a word: ";
 		cin >> keyword;
-		if (keyword != "exit") //skip process if keyword == exit
+		if (keyword == "exit") //skip process if keyword == exit
+			return 0;
+		Word* iterW = head;
+		while (iterW != NULL && iterW->getWord() != keyword) //search word
+			iterW = iterW->getNext();
+		if (iterW)
 		{
-			Word* iterW = head;
-			while (iterW != NULL && !found) //search word
+			cout << "Keyword \"" + keyword + "\" found in: ";
+			File* iterF = iterW->getFilePtr();
+			while (iterF != NULL) //print files
 			{
-				if (iterW->getWord() == keyword) //word found
-				{
-					cout << "Keyword \"" + keyword + "\" found in: ";
-					File* iterF = iterW->getFilePtr();
-					while (iterF != NULL) //print files
-					{
-						cout << "[" << iterF->getFilename() << ", " << iterF->getCount() <<"] ";
-						iterF = iterF->getNext();
-					}
-					cout << endl;
-					found = true;
-				}
-				iterW = iterW->getNext();
+				cout << "[\"" << iterF->getFilename() << "\", " << iterF->getCount() << "] ";
+				iterF = iterF->getNext();
 			}
-			found = false;
+			cout << endl;
 		}
-	} while (keyword != "exit");
-  
+	}
   return 0;
 }
 

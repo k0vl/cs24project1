@@ -12,17 +12,11 @@ void insert_file(Word* word_ptr, string filename)
 		return;
 	}
 	File* iterator = word_ptr->getFilePtr();
-	bool found = false;
-	while (iterator->getNext() && !found) {
+	while(iterator->getFilename() != filename && iterator->getNext())
 		iterator = iterator->getNext();
-		if(iterator->getFilename() == filename)
-		{
-			int i = iterator->getCount();
-			iterator->setCount(++i);
-			found = true;
-		}
-	}
-	if ( !found )
+	if(iterator->getFilename() == filename)
+		iterator->setCount(iterator->getCount()+1);
+	else
 		iterator->setNext (new File(filename,1,NULL));
 }
 
@@ -33,11 +27,10 @@ Word* insert_word(Word*& head, string search)
 		return head;
 	}
 	Word* ptr = head;
-	while (ptr->getNext()) {
+	while (ptr->getWord() != search && ptr->getNext())
 		ptr = ptr->getNext();
-		if (ptr->getWord() == search)
-			return ptr;
-	}
+	if (ptr->getWord() == search)
+		return ptr;
 	ptr->setNext(new Word(search,NULL,NULL));
 	return ptr->getNext();
 }

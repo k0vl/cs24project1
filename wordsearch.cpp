@@ -62,10 +62,10 @@ int main(int argc, char* argv[])
   }
   
 	string keyword;
-	cout << "Welcome to The Dictionary (Case Sensitive)\n";
+	cout << "\nWelcome to The Dictionary\n";
 	while(true)
 	{
-		cout << "Please enter a word: ";
+		cout << "\nPlease enter a word: ";
 		cin >> keyword;
 		if (keyword == "exit") //skip process if keyword == exit
 			return 0;
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 			File* iterF = iterW->getFilePtr();
 			while (iterF != NULL) //print files
 			{
-				cout << "[" << iterF->getFilename() << ", " << iterF->getCount() << "] ";
+				cout << "[\"" << iterF->getFilename() << "\", " << iterF->getCount() << "] ";
 				iterF = iterF->getNext();
 			}
 			cout << endl;
