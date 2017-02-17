@@ -59,7 +59,6 @@ int main(int argc, char* argv[])
     while(true){
       fin>>word;
       if(fin.eof()) {cout << "EOF " << files[i] << endl; break;}
-      cout<<"       " << files[i]<<"::"<<word<<endl;
       insert_file(insert_word(head, word), files[i]);
       // Now the string "word" holds the keyword, and the string "files[i]" holds the document name.
       // Use these two strings to search/insert in your linked lists
@@ -68,7 +67,37 @@ int main(int argc, char* argv[])
   }
 
   cout << "This is the next part of the program " << endl;
-  print_all(head);
+  
+	string keyword;
+	bool found = false;
+	cout << "Welcome to The Dictionary (Case Sensitive)\n";
+	do
+	{
+		cout << "Please enter a word: ";
+		cin >> keyword;
+		if (keyword != "exit")
+		{
+			Word* iterW = head;
+			while (iterW != NULL && !found) //search word
+			{
+				if (iterW->word == keyword) //word found
+				{
+					cout << "Keyword \"" + keyword + "\" found in: ";
+					File* iterF = iterW->file_ptr;
+					while (iterF != NULL) //print files
+					{
+						cout << "[ " << iterF->filename << ", " << iterF->count << " ] ";
+						iterF = iterF->next;
+					}
+					cout << endl;
+					found = true;
+				}
+				iterW = iterW->next;
+			}
+			found = false;
+		}
+	} while (keyword != "exit");
+  
   return 0;
 }
 
