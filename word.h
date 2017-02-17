@@ -5,7 +5,7 @@ using namespace std;
 
 struct Word{
 	string word;
-	File* file_ptr = NULL;
-	Word* next = NULL;
+	File* file_ptr;
+	Word* next;
 };
 #endif

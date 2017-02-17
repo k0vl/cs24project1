@@ -1,16 +1,9 @@
-#ifndef LIST
-#define LIST
+#ifndef LIST_H
+#define LIST_H
 #include "itemtype.h"
 using namespace std;
 
-template <typename T>
-class List
-{
- public:
-  List();
-  void insert(T data);
-  void print();
- private:
-  Node<T>* wlist;
-};
+void insert_file(Word* word_ptr, string filename);
+Word* insert_word(Word*& head, string search);
+void print_all(Word* head);
 #endif

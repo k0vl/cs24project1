@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include "word.h"
+#include "list.h"
 //#include "document.h"
 
 using namespace std;
@@ -32,7 +33,7 @@ int main(int argc, char* argv[])
 {
   string dir; //
   vector<string> files = vector<string>();
-  Word wordIndex;
+  Word* head = NULL;
 
   if (argc < 2)
     {
@@ -59,7 +60,7 @@ int main(int argc, char* argv[])
       fin>>word;
       if(fin.eof()) {cout << "EOF " << files[i] << endl; break;}
       cout<<"       " << files[i]<<"::"<<word<<endl;
-      wordIndex.insert(word);
+      insert_file(insert_word(head, word), files[i]);
       // Now the string "word" holds the keyword, and the string "files[i]" holds the document name.
       // Use these two strings to search/insert in your linked lists
     }
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
   }
 
   cout << "This is the next part of the program " << endl;
-  wordIndex.print();
+  print_all(head);
   return 0;
 }
 
