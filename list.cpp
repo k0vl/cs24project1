@@ -1,26 +1,20 @@
 // Implementation file for Unsorted.h
 #include <iostream>
 #include "itemtype.h"
+#include "word.h"
 
-template <typename T> List<T>::List()
+void insert_file(Word* word_ptr, string filename)
 {
-  wlist = NULL;
-}
-
-template <typename T> void List<T>::insert(T data)
-// If the fname already exists -- increment the count of the node;
-// Otherwise add the node
-{
-	List<T>* newNode;
-	newNode = new List<T>(data, wlist);
-	wlist = newNode;
-}
-
-template <typename T> void List<T>::print() 	
-{
-	List<T>* cursor;
-	for (cursor = wlist; cursor != NULL; cursor = cursor->getNext()) 
+	if( !(word_ptr->file_ptr) )
 	{
-		cout << cursor->getData() << endl;
+		word_ptr->file_ptr = new File{filename,1,NULL};
+		return;
 	}
+	File* iterator = word_ptr->file_ptr;
+	while(iterator && iterator->filename != filename)
+		iterator = iterator->next;
+	if(iterator)
+		iterator->count++;
+	else
+		iterator->next = new File{filename,1,NULL};
 }
